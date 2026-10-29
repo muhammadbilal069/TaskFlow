@@ -1,11 +1,10 @@
-
 import './App.css'
+import Navbar from './components/ Navbar/Navbar'
 
 function App() {
   return (
-    <div className="app">
-      <h1>TaskFlow</h1>
-      <p>Plan Smart. Work Better. Get Things Done.</p>
+    <div>
+      <Navbar/>
     </div>
   )
 }
