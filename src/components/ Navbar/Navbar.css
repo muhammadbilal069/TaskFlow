@@ -76,6 +76,37 @@
   color: #9ca3af;
 }
 
+.navbar__search-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+  display: none;
+}
+
+/* Mobile Search Toggle Button (Hidden by default on desktop) */
+.navbar__search-toggle {
+  display: none;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  background-color: #f3f5fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navbar__search-toggle:hover {
+  background-color: #eceafc;
+  color: #6257E8;
+}
+
 /* Actions & Profile Section */
 .navbar__actions {
   display: flex;
@@ -157,25 +188,36 @@
   }
   
   .navbar__user {
-    display: none; /* Tablet aur mobile par text hide kar dete hain taaki jagah bache */
-  }
-  
-  .navbar__search {
-    max-width: 240px;
+    display: none; /* Tablet aur mobile par text hide kar dete hain */
   }
 }
 
-@media (max-width: 480px) {
-  .navbar {
-    height: auto;
-    padding: 12px 16px;
-    flex-wrap: wrap;
+@media (max-width: 600px) {
+  /* Default mobile view jaisa screenshot mein hai */
+  .navbar__search {
+    display: none; /* Default search bar hide rahega choti screen par */
   }
 
-  .navbar__search {
-    order: 3;
+  .navbar__search-toggle {
+    display: flex; /* Search icon button show hoga */
+  }
+
+  /* Jab search open ho tab active classes chalengi */
+  .navbar__brand--hidden {
+    display: none !important;
+  }
+
+  .navbar__actions--hidden {
+    display: none !important;
+  }
+
+  .navbar__search--active {
+    display: flex !important;
+    flex: 1;
     max-width: 100%;
-    width: 100%;
-    margin-top: 4px;
+  }
+
+  .navbar__search-close {
+    display: block;
   }
 }
