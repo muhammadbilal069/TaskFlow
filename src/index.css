@@ -1,4 +1,3 @@
-
 :root {
   font-family: 'Inter', Arial, sans-serif;
   color: #111827;
@@ -9,14 +8,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fix: '-' ki jagah '*' kiya gaya hai */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Poori screen ko lock karne ke liye taaki unwanted scroll na aaye */
+  background-color: #f3f5fa;
 }
 
 button,
@@ -33,8 +38,4 @@ button {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-#root {
-  min-height: 100vh;
 }

@@ -1,24 +1,35 @@
+/* Main Layout Container */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
 
-.app {
-  min-height: 100vh;
+/* Right Side Main Area (Navbar + Content) */
+.app-main {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: 100vh;
+  overflow-y: auto; /* Sirf jab content zyada ho tab main area scroll ho */
+  min-width: 0;
+  background-color: #f3f5fa;
+}
+
+/* Page Content Area */
+.app-content {
+  flex: 1;
+  min-width: 0;
   padding: 24px;
-  text-align: center;
+  background-color: #f3f4fa;
+  box-sizing: border-box;
 }
 
-.app h1 {
-  margin: 0 0 12px;
-  color: #6257e8;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  letter-spacing: -2px;
-}
-
-.app p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 1rem;
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .app-content {
+    width: 100%;
+    padding: 20px 16px;
+  }
 }

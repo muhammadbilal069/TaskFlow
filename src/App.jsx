@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Navbar from './components/ Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
+import AppRouter from './Router/AppRouter';
 
 function App() {
   // 1. Sidebar ka open/close state
@@ -21,6 +22,11 @@ function App() {
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
       />
+
+        <main className="app-content">
+          <AppRouter />
+        </main>
+
       </div>
     </div>
     
