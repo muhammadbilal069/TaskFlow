@@ -1,0 +1,69 @@
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Welcome Section */
+.dashboard__welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.dashboard__welcome h1 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.dashboard__welcome p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.dashboard__grid-2 {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 18px;
+}
+
+/* Statistics Cards Grid */
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Tablet Responsive */
+@media (max-width: 1024px) {
+  .dashboard__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .dashboard__welcome h1 {
+    font-size: 22px;
+  }
+
+  .dashboard__grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__welcome p {
+    font-size: 13px;
+  }
+
+  .dashboard__stats {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}

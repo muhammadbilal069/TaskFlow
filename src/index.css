@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
   color: #111827;
   background: #f3f5fa;
   font-synthesis: none;
@@ -8,7 +8,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fix: '-' ki jagah '*' kiya gaya hai */
+/* '-' ki jagah '*' use karein taaki sab elements par box-sizing apply ho */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,9 +19,9 @@ html,
 body,
 #root {
   width: 100%;
-  height: 100%;
-  overflow: hidden; /* Poori screen ko lock karne ke liye taaki unwanted scroll na aaye */
+  min-height: 100vh;
   background-color: #f3f5fa;
+  /* overflow: hidden yahan se hata diya hai taaki page scroll ho sakay */
 }
 
 button,
