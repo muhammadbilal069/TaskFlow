@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import tasksData from '../../Data/tasks.js';
 import StatCard from '../../components/StatCard/StatCard';
 import ProductivityChart from '../../components/ProductivityChart/ProductivityChart.jsx';
@@ -8,21 +8,42 @@ import QuickActions from '../../components/QuickActions/QuickActions.jsx';
 import './Dashboard.css';
 
 
-
-
-
 function Dashboard() {
-  const [tasks, setTasks] = useState(tasksData);
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem('taskflow_tasks');
+    return saved ? JSON.parse(saved) : tasksData;
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('taskflow_tasks');
+      if (saved) {
+        setTasks(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleStorageChange);
+    };
+  }, []);
 
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.status === 'completed').length;
   const pendingTasks = tasks.filter((task) => task.status === 'pending').length;
   const inProgressTasks = tasks.filter((task) => task.status === 'in-progress').length;
 
-  const updateTaskStatus = (taskId, newStatus) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
-    );
+ const updateTaskStatus = (taskId, newStatus) => {
+    setTasks((prevTasks) => {
+      const updated = prevTasks.map((task) => 
+        task.id === taskId ? { ...task, status: newStatus } : task
+      );
+      localStorage.setItem('taskflow_tasks', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (
