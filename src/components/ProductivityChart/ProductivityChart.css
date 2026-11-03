@@ -34,16 +34,62 @@
   margin: 0;
 }
 
-.chart-filter-select {
-  background-color: #f8f9fc;
-  border: 1px solid #e9e7f2;
+.custom-select-wrapper {
+  position: relative;
+  user-select: none;
+  min-width: 140px;
+}
+
+.custom-select-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 6px 12px;
+  background: #f8f9fc;
+  border: 1px solid #e9e7f2;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
   color: #374151;
-  outline: none;
   cursor: pointer;
+}
+
+.custom-select-trigger.open {
+  border-color: #6257E8;
+  box-shadow: 0 0 0 3px rgba(98, 87, 232, 0.1);
+  background: #ffffff;
+}
+
+.custom-select-trigger .arrow {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.custom-options-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 4px;
+  min-width: 140px;
+}
+
+.custom-option {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.custom-option:hover {
+  background-color: #f3f2fc;
+  color: #6257E8;
 }
 
 .chart-body {

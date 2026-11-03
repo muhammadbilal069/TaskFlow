@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { FiTrendingUp } from 'react-icons/fi';
+import { FiTrendingUp, FiChevronDown } from 'react-icons/fi';
 import './ProductivityChart.css';
 
 function ProductivityChart() {
   const [filter, setFilter] = useState('This Week');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div className="chart-card">
@@ -12,15 +13,23 @@ function ProductivityChart() {
           <FiTrendingUp className="chart-main-icon" />
           <h3>Your Productivity</h3>
         </div>
-        <select 
-          className="chart-filter-select"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="This Week">This Week</option>
-          <option value="This Month">This Month</option>
-          <option value="This Year">This Year</option>
-        </select>
+       <div className="custom-select-wrapper">
+  <div 
+    className={`custom-select-trigger ${isDropdownOpen ? 'open' : ''}`}
+    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+  >
+    <span>{filter}</span>
+    <FiChevronDown className="arrow" />
+  </div>
+
+  {isDropdownOpen && (
+    <div className="custom-options-list">
+      <div className="custom-option" onClick={() => { setFilter('This Week'); setIsDropdownOpen(false); }}>This Week</div>
+      <div className="custom-option" onClick={() => { setFilter('This Month'); setIsDropdownOpen(false); }}>This Month</div>
+      <div className="custom-option" onClick={() => { setFilter('This Year'); setIsDropdownOpen(false); }}>This Year</div>
+    </div>
+  )}
+</div>
       </div>
 
       {/* SVG Curve Productivity Chart matching reference */}
