@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiGrid, FiCheckSquare, FiColumns, FiSettings } from 'react-icons/fi';
+import { FiGrid, FiCheckSquare, FiColumns, FiSettings, FiZap } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -23,7 +23,7 @@ function Sidebar({ isOpen, onClose }) {
         </div>
 
         {/* Navigation Links with React Icons */}
-            <nav className="sidebar__nav">
+        <nav className="sidebar__nav">
 
           {/* Dashboard */}
           <NavLink
@@ -75,6 +75,17 @@ function Sidebar({ isOpen, onClose }) {
           </NavLink>
 
         </nav>
+
+        {/* Bottom Sidebar Widget */}
+        <div className="sidebar__bottom-widget">
+          <div className="sidebar__pro-icon">
+            <FiZap size={15} />
+          </div>
+          <div className="sidebar__pro-content">
+            <h4>TaskFlow Pro</h4>
+            <p>Unlock unlimited boards & team tools.</p>
+          </div>
+        </div>
 
       </aside>
     </>

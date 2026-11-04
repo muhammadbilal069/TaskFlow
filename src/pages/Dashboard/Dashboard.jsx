@@ -51,7 +51,7 @@ function Dashboard() {
       {/* Welcome Section */}
       <div className="dashboard__welcome">
         <div>
-          <h1>Welcome back, Bilal! 👋</h1>
+          <h1 style={{fontFamily:"Times New Roman"}}>Welcome Back, John! 👋</h1>
           <p>Here's what's happening with your tasks today.</p>
         </div>
       </div>

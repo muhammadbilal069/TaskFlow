@@ -29,12 +29,6 @@
   gap: 12px;
 }
 
-.sidebar__brand-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .sidebar__logo {
   width: 36px;
   height: 36px;
@@ -69,7 +63,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
+  flex: 1; /* Yeh navigation links ko upar rakhega aur niche space banayega */
 }
 
 .sidebar__link {
@@ -96,35 +90,69 @@
   font-weight: 600;
 }
 
-/* --- Mobile Drawer Responsive Setup --- */
+/* --- Bottom Sidebar Pro Widget Styles --- */
+.sidebar__bottom-widget {
+  background: linear-gradient(135deg, #f9f8fe 0%, #f3f2fc 100%);
+  border: 1px solid #e4e1fb;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto; /* Yeh widget ko bilkul sidebar ke bottom mein fix kar dega */
+  margin-bottom: 20px;
+}
 
+.sidebar__pro-icon {
+  width: 30px;
+  height: 30px;
+  background-color: #6257E8;
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar__pro-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px 0;
+}
+
+.sidebar__pro-content p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* --- Mobile Drawer Responsive Setup --- */
 .sidebar__overlay {
   display: none;
 }
 
 @media (max-width: 768px) {
-  /* Sidebar Drawer Mobile Fix */
   .sidebar {
     position: fixed !important;
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: 1000 !important; /* Always on top of everything */
+    z-index: 1000 !important;
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
   }
 
-  /* When Open State Active */
   .sidebar--open {
     transform: translateX(0) !important;
   }
 
   .sidebar__close-btn {
-    display: block; /* Show Close Button on Mobile Drawer Header */
+    display: block;
   }
 
-  /* Dark Overlay Behind Drawer */
   .sidebar__overlay {
     display: block;
     position: fixed;
@@ -132,7 +160,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(17, 24, 39, 0.5); /* Semi-transparent dark overlay */
-    z-index: 999 !important; /* Right below sidebar */
+    background-color: rgba(17, 24, 39, 0.5);
+    z-index: 999 !important;
   }
 }

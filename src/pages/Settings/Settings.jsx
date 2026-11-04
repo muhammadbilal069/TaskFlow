@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FiUser, 
-  FiLock, 
   FiBell, 
-  FiMonitor, 
   FiSliders, 
-  FiAlertTriangle, 
   FiCheck, 
   FiSave, 
-  FiEye, 
-  FiEyeOff, 
   FiCamera, 
-  FiX,
   FiGlobe,
   FiCalendar,
-  FiClock
+  FiTrash2,
+  FiX,
+  FiChevronDown
 } from 'react-icons/fi';
 import './Settings.css';
 
 function Settings() {
-  // Toast Notification State
   const [toast, setToast] = useState({ show: false, message: '' });
 
   const triggerToast = (message) => {
@@ -29,14 +24,14 @@ function Settings() {
     }, 3000);
   };
 
-  // 1. Profile State (Saved in localStorage)
+  // 1. Profile State (Using 'taskflow_profile_v2' to bypass old browser cache)
   const [profile, setProfile] = useState(() => {
-    const saved = localStorage.getItem('taskflow_profile');
+    const saved = localStorage.getItem('taskflow_profile_v2');
     return saved ? JSON.parse(saved) : {
-      name: 'Bilal Ahmed',
-      email: 'bilal@taskflow.io',
-      bio: 'Product Designer & Frontend Developer passionate about building clean SaaS user interfaces.',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
+      name: 'John Doe',
+      email: 'john.doe@taskflow.io',
+      bio: 'Product Manager & UX Designer managing SaaS workflows.',
+      avatar: 'https://api.dicebear.com/7.x/shapes/svg?seed=JohnDoe'
     };
   });
 
@@ -45,7 +40,6 @@ function Settings() {
     setProfile(prev => ({ ...prev, [name]: value }));
   };
 
-  // Avatar Image Upload & Preview simulation using FileReader
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -59,55 +53,17 @@ function Settings() {
 
   const handleSaveProfile = (e) => {
     e.preventDefault();
-    localStorage.setItem('taskflow_profile', JSON.stringify(profile));
+    localStorage.setItem('taskflow_profile_v2', JSON.stringify(profile));
     triggerToast('Profile updated successfully!');
   };
 
-  // 2. Account & Security State
-  const [security, setSecurity] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-  const [showPasswords, setShowPasswords] = useState({
-    current: false,
-    new: false,
-    confirm: false
-  });
-
-  const handleSecurityChange = (e) => {
-    const { name, value } = e.target;
-    setSecurity(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
-    if (!security.currentPassword || !security.newPassword || !security.confirmPassword) {
-      triggerToast('Please fill in all password fields.');
-      return;
-    }
-    if (security.newPassword !== security.confirmPassword) {
-      triggerToast('New passwords do not match!');
-      return;
-    }
-    if (security.newPassword.length < 6) {
-      triggerToast('Password must be at least 6 characters long.');
-      return;
-    }
-
-    triggerToast('Password changed successfully!');
-    setSecurity({ currentPassword: '', newPassword: '', confirmPassword: '' });
-  };
-
-  // 3. Notification Settings State (Saved in localStorage)
+  // 2. Notification Preferences State
   const [notifications, setNotifications] = useState(() => {
     const saved = localStorage.getItem('taskflow_notifications');
     return saved ? JSON.parse(saved) : {
       taskCompletion: true,
       upcomingReminders: true,
-      overdueAlerts: true,
-      newTask: false,
-      emailNotifs: true
+      overdueAlerts: true
     };
   });
 
@@ -123,65 +79,54 @@ function Settings() {
     });
   };
 
-  // 4. Appearance State (Saved in localStorage)
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('taskflow_theme') || 'light';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('taskflow_theme', theme);
-    if (theme === 'dark') {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  }, [theme]);
-
-  const handleThemeSelect = (selectedTheme) => {
-    setTheme(selectedTheme);
-    triggerToast(`Theme changed to ${selectedTheme} mode successfully!`);
-  };
-
-  // 5. General Preferences State (Saved in localStorage)
+  // 3. General Preferences State & Custom Dropdowns
   const [general, setGeneral] = useState(() => {
     const saved = localStorage.getItem('taskflow_general');
     return saved ? JSON.parse(saved) : {
       language: 'en',
-      dateFormat: 'MM/DD/YYYY',
-      timeFormat: '12h'
+      dateFormat: 'MM/DD/YYYY'
     };
   });
 
-  const handleGeneralChange = (e) => {
-    const { name, value } = e.target;
-    setGeneral(prev => ({ ...prev, [name]: value }));
-  };
+  const [openLangDropdown, setOpenLangDropdown] = useState(false);
+  const [openDateDropdown, setOpenDateDropdown] = useState(false);
+
+  const languageOptions = [
+    { value: 'en', label: 'English (US)' },
+    { value: 'es', label: 'Español' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' }
+  ];
+
+  const dateFormatOptions = [
+    { value: 'MM/DD/YYYY', label: 'MM/DD/YYYY' },
+    { value: 'DD/MM/YYYY', label: 'DD/MM/YYYY' },
+    { value: 'YYYY-MM-DD', label: 'YYYY-MM-DD' }
+  ];
 
   const handleSaveGeneral = (e) => {
     e.preventDefault();
     localStorage.setItem('taskflow_general', JSON.stringify(general));
-    triggerToast('Preferences saved successfully!');
+    triggerToast('General preferences saved successfully!');
   };
 
-  // 6. Danger Zone Modals State
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showClearModal, setShowClearModal] = useState(false);
+  // 4. Reset Data Modal State
+  const [showResetModal, setShowResetModal] = useState(false);
 
-  const handleDeleteAccountConfirm = () => {
-    setShowDeleteModal(false);
-    triggerToast('Account deletion requested (Frontend simulation).');
-  };
-
-  const handleClearPreferencesConfirm = () => {
-    localStorage.clear();
-    setShowClearModal(false);
-    triggerToast('All application preferences cleared.');
-    window.location.reload();
+  const handleResetDataConfirm = () => {
+    localStorage.removeItem('taskflow_tasks');
+    localStorage.removeItem('taskflow_profile_v2');
+    localStorage.removeItem('taskflow_notifications');
+    localStorage.removeItem('taskflow_general');
+    setShowResetModal(false);
+    triggerToast('All TaskFlow data reset to default.');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   return (
     <div className="settings-page">
-      {/* Top-Right Toast Notification */}
       {toast.show && (
         <div className="toast-notification">
           <FiCheck className="toast-icon" />
@@ -189,10 +134,9 @@ function Settings() {
         </div>
       )}
 
-      {/* Header */}
       <div className="settings-header">
         <h1>Settings</h1>
-        <p>Manage your account and application preferences.</p>
+        <p>Manage your account profile and application preferences.</p>
       </div>
 
       <div className="settings-container">
@@ -202,7 +146,7 @@ function Settings() {
             <FiUser className="settings-icon" />
             <div>
               <h2>Profile Information</h2>
-              <p>Update your photo and personal details.</p>
+              <p>Update your profile picture and personal details.</p>
             </div>
           </div>
 
@@ -210,7 +154,7 @@ function Settings() {
             <div className="profile-avatar-group">
               <img src={profile.avatar} alt="Profile Avatar" className="profile-avatar-img" />
               <div className="avatar-upload-action">
-                <label htmlFor="avatar-input" className="btn-secondary upload-label">
+                <label htmlFor="avatar-input" className="upload-label">
                   <FiCamera /> Change Avatar
                 </label>
                 <input 
@@ -220,7 +164,7 @@ function Settings() {
                   onChange={handleAvatarUpload} 
                   style={{ display: 'none' }} 
                 />
-                <span className="avatar-hint">JPG, GIF or PNG. Max size 2MB</span>
+                <span className="avatar-hint">JPG, PNG or GIF. Max size 2MB</span>
               </div>
             </div>
 
@@ -266,101 +210,20 @@ function Settings() {
           </form>
         </section>
 
-        {/* 2. Account & Security */}
-        <section className="settings-card">
-          <div className="settings-card__header">
-            <FiLock className="settings-icon" />
-            <div>
-              <h2>Account & Security</h2>
-              <p>Update your password and secure your account.</p>
-            </div>
-          </div>
-
-          <form onSubmit={handlePasswordChange} className="settings-form">
-            <div className="form-group">
-              <label>Current Password</label>
-              <div className="password-input-wrapper">
-                <input 
-                  type={showPasswords.current ? 'text' : 'password'} 
-                  name="currentPassword" 
-                  placeholder="Enter current password"
-                  value={security.currentPassword} 
-                  onChange={handleSecurityChange} 
-                />
-                <button 
-                  type="button" 
-                  className="eye-btn" 
-                  onClick={() => setShowPasswords(prev => ({ ...prev, current: !prev.current }))}
-                >
-                  {showPasswords.current ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-            </div>
-
-            <div className="form-grid">
-              <div className="form-group">
-                <label>New Password</label>
-                <div className="password-input-wrapper">
-                  <input 
-                    type={showPasswords.new ? 'text' : 'password'} 
-                    name="newPassword" 
-                    placeholder="Enter new password"
-                    value={security.newPassword} 
-                    onChange={handleSecurityChange} 
-                  />
-                  <button 
-                    type="button" 
-                    className="eye-btn" 
-                    onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
-                  >
-                    {showPasswords.new ? <FiEyeOff /> : <FiEye />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Confirm New Password</label>
-                <div className="password-input-wrapper">
-                  <input 
-                    type={showPasswords.confirm ? 'text' : 'password'} 
-                    name="confirmPassword" 
-                    placeholder="Confirm new password"
-                    value={security.confirmPassword} 
-                    onChange={handleSecurityChange} 
-                  />
-                  <button 
-                    type="button" 
-                    className="eye-btn" 
-                    onClick={() => setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))}
-                  >
-                    {showPasswords.confirm ? <FiEyeOff /> : <FiEye />}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-actions">
-              <button type="submit" className="btn-primary">
-                Change Password
-              </button>
-            </div>
-          </form>
-        </section>
-
-        {/* 3. Notification Settings */}
+        {/* 2. Notification Preferences */}
         <section className="settings-card">
           <div className="settings-card__header">
             <FiBell className="settings-icon" />
             <div>
-              <h2>Notifications</h2>
-              <p>Choose what notifications you want to receive.</p>
+              <h2>Notification Preferences</h2>
+              <p>Choose what task alerts you want to receive.</p>
             </div>
           </div>
 
           <div className="toggles-list">
             <div className="toggle-item">
               <div className="toggle-info">
-                <h4>Task Completion</h4>
+                <h4>Task Completion Alerts</h4>
                 <p>Receive notifications when tasks are marked as completed.</p>
               </div>
               <label className="switch">
@@ -402,114 +265,92 @@ function Settings() {
                 <span className="slider round"></span>
               </label>
             </div>
-
-            <div className="toggle-item">
-              <div className="toggle-info">
-                <h4>New Task Creation</h4>
-                <p>Get notified when a new task is added to your board.</p>
-              </div>
-              <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={notifications.newTask} 
-                  onChange={() => handleNotificationToggle('newTask')} 
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
-
-            <div className="toggle-item">
-              <div className="toggle-info">
-                <h4>Email Notifications</h4>
-                <p>Receive weekly digests and important updates via email.</p>
-              </div>
-              <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={notifications.emailNotifs} 
-                  onChange={() => handleNotificationToggle('emailNotifs')} 
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
           </div>
         </section>
 
-        {/* 4. Appearance Settings */}
-        <section className="settings-card">
-          <div className="settings-card__header">
-            <FiMonitor className="settings-icon" />
-            <div>
-              <h2>Appearance</h2>
-              <p>Customize the look and feel of your application.</p>
-            </div>
-          </div>
-
-          <div className="theme-options-grid">
-            <div 
-              className={`theme-card ${theme === 'light' ? 'active' : ''}`}
-              onClick={() => handleThemeSelect('light')}
-            >
-              <div className="theme-preview light-preview"></div>
-              <span>Light Mode</span>
-            </div>
-
-            <div 
-              className={`theme-card ${theme === 'dark' ? 'active' : ''}`}
-              onClick={() => handleThemeSelect('dark')}
-            >
-              <div className="theme-preview dark-preview"></div>
-              <span>Dark Mode</span>
-            </div>
-
-            <div 
-              className={`theme-card ${theme === 'system' ? 'active' : ''}`}
-              onClick={() => handleThemeSelect('system')}
-            >
-              <div className="theme-preview system-preview"></div>
-              <span>System Default</span>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. General Preferences */}
+        {/* 3. General Preferences */}
         <section className="settings-card">
           <div className="settings-card__header">
             <FiSliders className="settings-icon" />
             <div>
               <h2>General Preferences</h2>
-              <p>Set your language, date format, and time settings.</p>
+              <p>Configure language and date display formats.</p>
             </div>
           </div>
 
           <form onSubmit={handleSaveGeneral} className="settings-form">
             <div className="form-grid">
+              
+              {/* Custom Language Dropdown */}
               <div className="form-group">
                 <label><FiGlobe /> Language</label>
-                <select name="language" value={general.language} onChange={handleGeneralChange}>
-                  <option value="en">English (US)</option>
-                  <option value="es">Español</option>
-                  <option value="fr">Français</option>
-                  <option value="de">Deutsch</option>
-                </select>
+                <div className="custom-select-wrapper">
+                  <div 
+                    className={`custom-select-trigger ${openLangDropdown ? 'open' : ''}`}
+                    onClick={() => {
+                      setOpenLangDropdown(!openLangDropdown);
+                      setOpenDateDropdown(false);
+                    }}
+                  >
+                    <span>
+                      {languageOptions.find(opt => opt.value === general.language)?.label || 'English (US)'}
+                    </span>
+                    <FiChevronDown className="arrow" />
+                  </div>
+
+                  {openLangDropdown && (
+                    <div className="custom-options-list">
+                      {languageOptions.map((opt) => (
+                        <div 
+                          key={opt.value}
+                          className={`custom-option ${general.language === opt.value ? 'selected' : ''}`}
+                          onClick={() => {
+                            setGeneral(prev => ({ ...prev, language: opt.value }));
+                            setOpenLangDropdown(false);
+                          }}
+                        >
+                          {opt.label}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
+              {/* Custom Date Format Dropdown */}
               <div className="form-group">
                 <label><FiCalendar /> Date Format</label>
-                <select name="dateFormat" value={general.dateFormat} onChange={handleGeneralChange}>
-                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-                </select>
+                <div className="custom-select-wrapper">
+                  <div 
+                    className={`custom-select-trigger ${openDateDropdown ? 'open' : ''}`}
+                    onClick={() => {
+                      setOpenDateDropdown(!openDateDropdown);
+                      setOpenLangDropdown(false);
+                    }}
+                  >
+                    <span>{general.dateFormat}</span>
+                    <FiChevronDown className="arrow" />
+                  </div>
+
+                  {openDateDropdown && (
+                    <div className="custom-options-list">
+                      {dateFormatOptions.map((opt) => (
+                        <div 
+                          key={opt.value}
+                          className={`custom-option ${general.dateFormat === opt.value ? 'selected' : ''}`}
+                          onClick={() => {
+                            setGeneral(prev => ({ ...prev, dateFormat: opt.value }));
+                            setOpenDateDropdown(false);
+                          }}
+                        >
+                          {opt.label}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="form-group">
-                <label><FiClock /> Time Format</label>
-                <select name="timeFormat" value={general.timeFormat} onChange={handleGeneralChange}>
-                  <option value="12h">12-hour (11:40 PM)</option>
-                  <option value="24h">24-hour (23:40)</option>
-                </select>
-              </div>
             </div>
 
             <div className="form-actions">
@@ -520,77 +361,43 @@ function Settings() {
           </form>
         </section>
 
-        {/* 6. Danger Zone */}
+        {/* 4. Data Management / Reset Zone */}
         <section className="settings-card danger-card">
           <div className="settings-card__header">
-            <FiAlertTriangle className="settings-icon danger-icon" />
+            <FiTrash2 className="settings-icon danger-icon" />
             <div>
-              <h2>Danger Zone</h2>
-              <p>Irreversible and destructive actions.</p>
+              <h2>Data Management</h2>
+              <p>Reset local application data and tasks.</p>
             </div>
           </div>
 
-          <div className="danger-actions">
-            <div className="danger-action-item">
-              <div>
-                <h4>Clear Application Data</h4>
-                <p>Reset all tasks, preferences, and local storage data to default.</p>
-              </div>
-              <button className="btn-danger-outline" onClick={() => setShowClearModal(true)}>
-                Clear Data
-              </button>
+          <div className="danger-action-item">
+            <div>
+              <h4>Reset TaskFlow Data</h4>
+              <p>Clear all tasks and preferences stored in localStorage and reload defaults.</p>
             </div>
-
-            <div className="danger-action-item">
-              <div>
-                <h4>Delete Account</h4>
-                <p>Permanently remove your account and all associated data.</p>
-              </div>
-              <button className="btn-danger" onClick={() => setShowDeleteModal(true)}>
-                Delete Account
-              </button>
-            </div>
+            <button className="btn-danger-outline" onClick={() => setShowResetModal(true)}>
+              Reset Data
+            </button>
           </div>
         </section>
       </div>
 
-      {/* Clear Data Confirmation Modal */}
-      {showClearModal && (
+      {showResetModal && (
         <div className="modal-overlay">
           <div className="modal-container">
             <div className="modal-header">
-              <h2>Clear All Application Data?</h2>
-              <button className="modal-close-btn" onClick={() => setShowClearModal(false)}>
+              <h2>Reset TaskFlow Data?</h2>
+              <button className="modal-close-btn" onClick={() => setShowResetModal(false)}>
                 <FiX />
               </button>
             </div>
             <div className="modal-body">
-              <p>This action will reset your tasks, profile, and preferences back to default. This cannot be undone.</p>
+              <p>This will clear all your tasks, profile details, and custom preferences from localStorage. Are you sure?</p>
             </div>
             <div className="modal-actions">
-              <button className="btn-secondary" onClick={() => setShowClearModal(false)}>Cancel</button>
-              <button className="btn-danger" onClick={handleClearPreferencesConfirm}>Yes, Clear Data</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Account Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal-container">
-            <div className="modal-header">
-              <h2>Delete Account?</h2>
-              <button className="modal-close-btn" onClick={() => setShowDeleteModal(false)}>
-                <FiX />
-              </button>
-            </div>
-            <div className="modal-body">
-              <p>Are you sure you want to delete your TaskFlow account? All your personal data and projects will be removed.</p>
-            </div>
-            <div className="modal-actions">
-              <button className="btn-secondary" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-              <button className="btn-danger" onClick={handleDeleteAccountConfirm}>Delete Account</button>
+              <button className="btn-secondary" onClick={() => setShowResetModal(false)}>Cancel</button>
+              <button className="btn-danger" onClick={handleResetDataConfirm}>Yes, Reset Data</button>
             </div>
           </div>
         </div>
