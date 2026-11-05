@@ -1,9 +1,52 @@
+:root {
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  color: #111827;
+  background: #f3f5fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Box-Sizing Fix (* asterisk use kiya hai) */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f3f5fa;
+  overflow-x: hidden; /* Side scrolling hatane ke liye */
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* Main Layout Container */
 .app-layout {
   display: flex;
   min-height: 100vh;
   width: 100%;
   position: relative;
+  overflow-x: hidden;
 }
 
 /* Right Side Main Area */
@@ -26,15 +69,22 @@
   width: 100%;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive Fixes (Side space aur overflow remove karne ke liye) */
 @media (max-width: 768px) {
   .app-content {
     width: 100%;
-    padding: 16px;
+    padding: 12px !important; /* Mobile par extra side space hatane ke liye */
+  }
+
+  .app-layout,
+  .app-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
 }
 
-/* Yeh rules sirf Desktop screens par chalenge (Mobile safe rahega) */
+/* Desktop screens rules (min-width: 769px) */
 @media (min-width: 769px) {
   .app-layout {
     display: flex;
@@ -54,11 +104,10 @@
 
   .app-main {
     flex: 1;
-    margin-left: 260px; /* Sidebar ki width ke barabar margin taaki content chup na ho */
+    margin-left: 260px; /* Sidebar ki width ke barabar margin */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     background-color: #f3f5fa;
   }
 }
-
