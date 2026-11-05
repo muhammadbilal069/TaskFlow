@@ -5,6 +5,9 @@
   margin: 0 auto;
   font-family: inherit;
   color: #111827;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -30,6 +33,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
 }
 
 .settings-card {
@@ -39,6 +43,8 @@
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .settings-card:hover {
@@ -63,6 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .settings-card__header h2 {
@@ -83,6 +90,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
 
 .form-grid {
@@ -101,6 +109,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 
 .form-group label {
@@ -123,6 +132,8 @@
   background: #ffffff;
   color: #111827;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .form-group input:focus,
@@ -136,6 +147,7 @@
   position: relative;
   user-select: none;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .custom-select-trigger {
@@ -151,6 +163,8 @@
   color: #111827;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .custom-select-trigger:hover {
@@ -185,6 +199,7 @@
   overflow: hidden;
   padding: 6px;
   animation: fadeInDropdown 0.2s ease;
+  box-sizing: border-box;
 }
 
 @keyframes fadeInDropdown {
@@ -224,6 +239,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .profile-avatar-img {
@@ -233,6 +249,7 @@
   object-fit: cover;
   border: 2px solid #e5e7eb;
   background-color: #f3f2fc;
+  flex-shrink: 0;
 }
 
 .avatar-upload-action {
@@ -268,6 +285,7 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
+  width: 100%;
 }
 
 .btn-primary {
@@ -311,6 +329,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .toggle-item {
@@ -319,6 +338,7 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #f3f4f6;
+  gap: 12px;
 }
 
 .toggle-item:last-child {
@@ -498,6 +518,7 @@ input:checked + .slider:before {
   z-index: 2000;
   padding: 16px;
   backdrop-filter: blur(4px);
+  box-sizing: border-box;
 }
 
 .modal-container {
@@ -508,6 +529,7 @@ input:checked + .slider:before {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   animation: modalScaleIn 0.25s ease;
+  box-sizing: border-box;
 }
 
 @keyframes modalScaleIn {
@@ -562,4 +584,19 @@ input:checked + .slider:before {
   justify-content: flex-end;
   gap: 12px;
   border-top: 1px solid #e5e7eb;
+}
+
+/* --- Mobile Responsiveness Fixes for Settings Page --- */
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .settings-card {
+    padding: 16px !important;
+    width: 100% !important;
+  }
 }
