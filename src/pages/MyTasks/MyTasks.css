@@ -637,7 +637,7 @@
 
 @media (max-width: 768px) {
   .my-tasks-page {
-    padding: 10px !important;
+    padding: 4px !important;
     gap: 14px;
     width: 100% !important;
     max-width: 100% !important;

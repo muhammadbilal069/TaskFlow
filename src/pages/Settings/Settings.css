@@ -589,7 +589,7 @@ input:checked + .slider:before {
 /* --- Mobile Responsiveness Fixes for Settings Page --- */
 @media (max-width: 768px) {
   .settings-page {
-    padding: 12px !important;
+    padding: 5px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;

@@ -649,7 +649,7 @@
 
 @media (max-width: 768px) {
   .board-page {
-    padding: 12px !important;
+    padding: 5px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
