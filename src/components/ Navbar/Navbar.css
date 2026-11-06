@@ -9,10 +9,11 @@
   background-color: #ffffff;
   border-bottom: 1px solid #e8ebf2;
   font-family: 'Inter', sans-serif;
-  position: sticky;
+  position: fixed !important;
   top: 0;
-  z-index: 100;
+  z-index: 1000 !important; 
   box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04)
 }
 
 .navbar__left {
