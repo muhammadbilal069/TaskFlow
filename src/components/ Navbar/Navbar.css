@@ -1,5 +1,6 @@
+/* Base Navbar (Mobile ke liye default) */
 .navbar {
-  width: 100%;
+  width: 100% !important;
   height: 76px;
   display: flex;
   align-items: center;
@@ -11,9 +12,10 @@
   font-family: 'Inter', sans-serif;
   position: fixed !important;
   top: 0;
+  left: 0 !important; /* Mobile par left 0 rahega */
   z-index: 1000 !important; 
   box-sizing: border-box;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04)
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .navbar__left {
@@ -34,7 +36,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  
 }
 
 /* Search Bar on Left Side */
@@ -152,10 +153,20 @@
   color: #ffffff;
 }
 
+/* 💻 Sirf Desktop Screen ke liye Sidebar ka Offset (769px ya isse ooper) */
+@media (min-width: 769px) {
+  .navbar {
+    left: 260px !important;
+    width: calc(100% - 260px) !important;
+  }
+}
+
 /* Responsive Media Queries */
 @media (max-width: 768px) {
   .navbar {
     padding: 0 16px;
+    left: 0 !important;
+    width: 100% !important;
   }
 
   .navbar__menu-toggle {
